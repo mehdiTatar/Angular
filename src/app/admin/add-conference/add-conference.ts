@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, inject, signal } from '@angular/core';   // LOG : + computed, effect
+import { toSignal } from '@angular/core/rxjs-interop';                                                   // LOG
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ConferenceService } from '../../services/conference';
 
@@ -21,19 +22,33 @@ export class AddConference {
     date: ['', Validators.required],
   });
 
+  // LOG : statut du formulaire converti en signal (slide 23)
+  readonly formStatus = toSignal(this.conferenceForm.statusChanges, {
+    initialValue: this.conferenceForm.status,
+  });
+  readonly isValid = computed(() => this.formStatus() === 'VALID');      // LOG (slide 24)
+
   readonly submitted = signal(false);
   readonly successMessage = signal('');
+
+  constructor() {
+    // LOG : s'affiche au démarrage, puis chaque fois que la validité change
+    effect(() => console.log('Formulaire valide :', this.isValid()));
+  }
 
   onSubmit(): void {
     this.submitted.set(true);
     this.successMessage.set('');
 
     if (this.conferenceForm.invalid) {
+      console.log('Soumission refusée, erreurs :', this.conferenceForm.errors);   // LOG
       this.conferenceForm.markAllAsTouched();
       return;
     }
 
-    this.conferenceService.addConference(this.conferenceForm.getRawValue());
+    const value = this.conferenceForm.getRawValue();
+    console.log('Conférence ajoutée :', value);                                    // LOG
+    this.conferenceService.addConference(value);
     this.successMessage.set('La conférence a été ajoutée avec succès.');
     this.conferenceForm.reset();
     this.submitted.set(false);

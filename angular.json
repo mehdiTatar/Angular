@@ -7,7 +7,7 @@
   },
   "newProjectRoot": "projects",
   "projects": {
-    "Mohamed_Malek_Tebbini_4SSA3": {
+    "Mehdi_Tatar": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -57,10 +57,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "Mohamed_Malek_Tebbini_4SSA3:build:production"
+              "buildTarget": "Mehdi_Tatar:build:production"
             },
             "development": {
-              "buildTarget": "Mohamed_Malek_Tebbini_4SSA3:build:development"
+              "buildTarget": "Mehdi_Tatar:build:development"
             }
           },
           "defaultConfiguration": "development"

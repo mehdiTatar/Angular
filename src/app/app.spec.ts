@@ -18,6 +18,6 @@ describe('App', () => {
     const fixture = TestBed.createComponent(App);
     await fixture.whenStable();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, Mohamed_Malek_Tebbini_4SSA3');
+    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, Mehdi_Tatar');
   });
 });
