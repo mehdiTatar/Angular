@@ -1,0 +1,19 @@
+.carte {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin: 12px 0;
+}
+
+button {
+  padding: 6px 14px;
+  border: none;
+  border-radius: 4px;
+  background: #1e3a8a;
+  color: white;
+  cursor: pointer;
+}
+
+button.annuler {
+  background: #b91c1c;
+}

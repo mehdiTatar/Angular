@@ -1,0 +1,13 @@
+<nav class="barre">
+  <span class="logo">ConfTech</span>
+
+  <span class="liens">
+    <a routerLink="/home" routerLinkActive="actif">Accueil</a>
+    <a routerLink="/conferences" routerLinkActive="actif">Conférences</a>
+    <a routerLink="/admin" routerLinkActive="actif">Admin</a>
+    <a routerLink="/about" routerLinkActive="actif">À propos</a>
+    <a routerLink="/contact" routerLinkActive="actif">Contact</a>
+  </span>
+
+  <span class="compteur">Mes réservations : {{ bookingService.bookingCount() }}</span>
+</nav>

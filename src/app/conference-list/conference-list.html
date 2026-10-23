@@ -1,0 +1,31 @@
+<h2>Catalogue des conférences</h2>
+
+<select #filtre (change)="conferenceService.setSujet(filtre.value)">
+  <option value="">Tous les sujets</option>
+  @for (s of conferenceService.sujets(); track s) {
+    <option [value]="s">{{ s }}</option>
+  }
+</select>
+
+@for (c of conferenceService.filteredConferences(); track c.id) {
+  <div class="carte">
+    <h3>{{ c.titre }}</h3>
+    <p>{{ c.intervenant }} - {{ c.sujet }} - {{ c.date }}</p>
+    <p>{{ c.places }} places restantes</p>
+
+    <button (click)="selected.set(c)">Détails</button>
+    <a [routerLink]="['/conferences', c.id]">Voir la page</a>
+
+    @if (bookingService.isBooked(c.id)) {
+      <button class="annuler" (click)="bookingService.cancel(c.id)">Annuler</button>
+    } @else if (c.places === 0) {
+      <button disabled>Complet</button>
+    } @else {
+      <button (click)="bookingService.book(c.id)">Réserver</button>
+    }
+  </div>
+} @empty {
+  <p>Aucune conférence pour ce sujet.</p>
+}
+
+<app-conference-detail [conference]="selected()" />

@@ -1,0 +1,29 @@
+.sous-nav {
+  display: flex;
+  gap: 8px;
+  padding: 8px 12px;
+  background: #e0e7ff;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.sous-nav a {
+  padding: 8px 16px;
+  color: #1e3a8a;
+  text-decoration: none;
+  border-radius: 6px;
+  font-weight: 500;
+}
+
+.sous-nav a:hover {
+  background: #c7d2fe;
+}
+
+.sous-nav a.actif {
+  background: #1e3a8a;
+  color: white;
+}
+
+.contenu {
+  padding: 4px;
+}

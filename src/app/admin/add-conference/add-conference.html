@@ -1,0 +1,186 @@
+<section class="form-container">
+  <h2>Ajouter une conférence</h2>
+
+  @if (successMessage()) {
+    <p class="feedback success" role="status">{{ successMessage() }}</p>
+  }
+
+  <form [formGroup]="conferenceForm" (ngSubmit)="onSubmit()" novalidate>
+    <div class="form-field">
+      <label for="titre">Titre</label>
+      <input
+        id="titre"
+        type="text"
+        formControlName="titre"
+        maxlength="100"
+        required
+        [attr.aria-invalid]="
+          conferenceForm.controls.titre.invalid &&
+          (conferenceForm.controls.titre.touched || submitted())
+            ? 'true'
+            : null
+        "
+        [attr.aria-describedby]="
+          conferenceForm.controls.titre.invalid &&
+          (conferenceForm.controls.titre.touched || submitted())
+            ? 'titre-error'
+            : null
+        "
+      />
+      @if (
+        conferenceForm.controls.titre.invalid &&
+        (conferenceForm.controls.titre.touched || submitted())
+      ) {
+        <p id="titre-error" class="feedback error" role="alert">
+          @if (conferenceForm.controls.titre.hasError('required')) {
+            Le titre est obligatoire.
+          } @else if (conferenceForm.controls.titre.hasError('minlength')) {
+            Le titre doit contenir au moins 3 caractères.
+          } @else if (conferenceForm.controls.titre.hasError('maxlength')) {
+            Le titre ne peut pas dépasser 100 caractères.
+          }
+        </p>
+      }
+    </div>
+
+    <div class="form-field">
+      <label for="intervenant">Intervenant</label>
+      <input
+        id="intervenant"
+        type="text"
+        formControlName="intervenant"
+        maxlength="80"
+        required
+        [attr.aria-invalid]="
+          conferenceForm.controls.intervenant.invalid &&
+          (conferenceForm.controls.intervenant.touched || submitted())
+            ? 'true'
+            : null
+        "
+        [attr.aria-describedby]="
+          conferenceForm.controls.intervenant.invalid &&
+          (conferenceForm.controls.intervenant.touched || submitted())
+            ? 'intervenant-error'
+            : null
+        "
+      />
+      @if (
+        conferenceForm.controls.intervenant.invalid &&
+        (conferenceForm.controls.intervenant.touched || submitted())
+      ) {
+        <p id="intervenant-error" class="feedback error" role="alert">
+          @if (conferenceForm.controls.intervenant.hasError('required')) {
+            Le nom de l’intervenant est obligatoire.
+          } @else if (conferenceForm.controls.intervenant.hasError('minlength')) {
+            Le nom doit contenir au moins 2 caractères.
+          } @else if (conferenceForm.controls.intervenant.hasError('maxlength')) {
+            Le nom ne peut pas dépasser 80 caractères.
+          }
+        </p>
+      }
+    </div>
+
+    <div class="form-field">
+      <label for="sujet">Sujet</label>
+      <input
+        id="sujet"
+        type="text"
+        formControlName="sujet"
+        maxlength="80"
+        required
+        [attr.aria-invalid]="
+          conferenceForm.controls.sujet.invalid &&
+          (conferenceForm.controls.sujet.touched || submitted())
+            ? 'true'
+            : null
+        "
+        [attr.aria-describedby]="
+          conferenceForm.controls.sujet.invalid &&
+          (conferenceForm.controls.sujet.touched || submitted())
+            ? 'sujet-error'
+            : null
+        "
+      />
+      @if (
+        conferenceForm.controls.sujet.invalid &&
+        (conferenceForm.controls.sujet.touched || submitted())
+      ) {
+        <p id="sujet-error" class="feedback error" role="alert">
+          @if (conferenceForm.controls.sujet.hasError('required')) {
+            Le sujet est obligatoire.
+          } @else if (conferenceForm.controls.sujet.hasError('maxlength')) {
+            Le sujet ne peut pas dépasser 80 caractères.
+          }
+        </p>
+      }
+    </div>
+
+    <div class="form-field">
+      <label for="places">Nombre de places</label>
+      <input
+        id="places"
+        type="number"
+        formControlName="places"
+        min="1"
+        step="1"
+        required
+        [attr.aria-invalid]="
+          conferenceForm.controls.places.invalid &&
+          (conferenceForm.controls.places.touched || submitted())
+            ? 'true'
+            : null
+        "
+        [attr.aria-describedby]="
+          conferenceForm.controls.places.invalid &&
+          (conferenceForm.controls.places.touched || submitted())
+            ? 'places-error'
+            : null
+        "
+      />
+      @if (
+        conferenceForm.controls.places.invalid &&
+        (conferenceForm.controls.places.touched || submitted())
+      ) {
+        <p id="places-error" class="feedback error" role="alert">
+          @if (conferenceForm.controls.places.hasError('required')) {
+            Le nombre de places est obligatoire.
+          } @else if (conferenceForm.controls.places.hasError('min')) {
+            Le nombre de places doit être supérieur ou égal à 1.
+          } @else if (conferenceForm.controls.places.hasError('pattern')) {
+            Le nombre de places doit être un entier positif.
+          }
+        </p>
+      }
+    </div>
+
+    <div class="form-field">
+      <label for="date">Date</label>
+      <input
+        id="date"
+        type="date"
+        formControlName="date"
+        required
+        [attr.aria-invalid]="
+          conferenceForm.controls.date.invalid &&
+          (conferenceForm.controls.date.touched || submitted())
+            ? 'true'
+            : null
+        "
+        [attr.aria-describedby]="
+          conferenceForm.controls.date.invalid &&
+          (conferenceForm.controls.date.touched || submitted())
+            ? 'date-error'
+            : null
+        "
+      />
+      @if (
+        conferenceForm.controls.date.invalid &&
+        (conferenceForm.controls.date.touched || submitted())
+      ) {
+        <p id="date-error" class="feedback error" role="alert">La date est obligatoire.</p>
+      }
+    </div>
+
+    <button type="submit">Ajouter la conférence</button>
+  </form>
+</section>
