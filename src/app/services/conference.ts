@@ -1,49 +1,105 @@
-import { Injectable, signal, computed } from '@angular/core';
+
+import { Injectable, signal, computed, inject } from '@angular/core';
+import { HttpClient, httpResource } from '@angular/common/http';
 import { Conference } from '../models/conference';
 
 @Injectable({ providedIn: 'root' })
 export class ConferenceService {
-  private readonly _conferences = signal<Conference[]>([
-    { id: 1, titre: 'Angular Summit', intervenant: 'Sara Ben Ali', sujet: 'Frontend', places: 50, date: '2026-11-10' },
-    { id: 2, titre: 'Spring Days', intervenant: 'Yassine Trabelsi', sujet: 'Backend', places: 30, date: '2026-11-18' },
-    { id: 3, titre: 'AI Connect', intervenant: 'Meriem Gharbi', sujet: 'IA', places: 100, date: '2026-12-02' },
-  ]);
 
-  readonly conferences = this._conferences.asReadonly();
+  // Injection du service HttpClient
+  private http = inject(HttpClient);
+
+  // URL du backend JSON Server
+  private apiUrl = 'http://localhost:3000/conferences';
+
+  // GET : récupération des conférences avec httpResource()
+  readonly conferencesResource = httpResource<Conference[]>(
+    () => this.apiUrl
+  );
+
+  // Méthode demandée pour récupérer toutes les conférences
+  getAllConferences() {
+    return this.conferencesResource;
+  }
+
+  // Signal contenant la liste des conférences
+  readonly conferences = computed(
+    () => this.getAllConferences().value() ?? []
+  );
+
+  // Signal du sujet sélectionné
   readonly selectedSujet = signal<string>('');
 
-  readonly sujets = computed(() => [...new Set(this._conferences().map(c => c.sujet))]);
+  // Extraction des sujets sans doublons
+  readonly sujets = computed(() =>
+    [...new Set(this.conferences().map(c => c.sujet))]
+  );
 
+  // Filtrage des conférences selon le sujet
   readonly filteredConferences = computed(() => {
     const sujet = this.selectedSujet();
+
     return sujet
-      ? this._conferences().filter(c => c.sujet === sujet)
-      : this._conferences();
+      ? this.conferences().filter(c => c.sujet === sujet)
+      : this.conferences();
   });
 
+  // POST : ajout d'une conférence
+  addConference(data: Omit<Conference, 'id'>) {
+    this.http.post<Conference>(this.apiUrl, data).subscribe(() => {
+      this.conferencesResource.reload();
+    });
+  }
+
+  // PUT : modification d'une conférence
+  updateConference(id: number, c: Conference) {
+    this.http.put<Conference>(`${this.apiUrl}/${id}`, c).subscribe(() => {
+      this.conferencesResource.reload();
+    });
+  }
+
+  // DELETE : suppression d'une conférence
+  deleteConference(id: number) {
+    this.http.delete(`${this.apiUrl}/${id}`).subscribe(() => {
+      this.conferencesResource.reload();
+    });
+  }
+
+  // Modification du sujet sélectionné
   setSujet(sujet: string) {
     this.selectedSujet.set(sujet);
   }
 
+  // Recherche d'une conférence par son identifiant
   getById(id: number): Conference | undefined {
-    return this._conferences().find(c => c.id === id);
+    return this.conferences().find(c => c.id === id);
   }
 
+  // Décrémentation des places après réservation
   decrementPlaces(id: number) {
-    this._conferences.update(list =>
-      list.map(c => (c.id === id && c.places > 0 ? { ...c, places: c.places - 1 } : c))
-    );
+    const conference = this.getById(id);
+
+    if (conference && conference.places > 0) {
+      const updated = {
+        ...conference,
+        places: conference.places - 1
+      };
+
+      this.updateConference(id, updated);
+    }
   }
 
+  // Incrémentation des places après annulation
   incrementPlaces(id: number) {
-    this._conferences.update(list =>
-      list.map(c => (c.id === id ? { ...c, places: c.places + 1 } : c))
-    );
+    const conference = this.getById(id);
+
+    if (conference) {
+      const updated = {
+        ...conference,
+        places: conference.places + 1
+      };
+
+      this.updateConference(id, updated);
+    }
   }
-  addConference(data: Omit<Conference, 'id'>) {
-  this._conferences.update(list => {
-    const newId = list.length ? Math.max(...list.map(c => c.id)) + 1 : 1;
-    return [...list, { id: newId, ...data }];
-  });
-}
 }

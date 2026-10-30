@@ -35,22 +35,26 @@ export class AddConference {
     // LOG : s'affiche au démarrage, puis chaque fois que la validité change
     effect(() => console.log('Formulaire valide :', this.isValid()));
   }
-
+///////////////ajout de la méthode onSubmit() pour gérer la soumission du formulaire
   onSubmit(): void {
-    this.submitted.set(true);
-    this.successMessage.set('');
+  this.submitted.set(true);
+  this.successMessage.set('');
 
-    if (this.conferenceForm.invalid) {
-      console.log('Soumission refusée, erreurs :', this.conferenceForm.errors);   // LOG
-      this.conferenceForm.markAllAsTouched();
-      return;
-    }
-
-    const value = this.conferenceForm.getRawValue();
-    console.log('Conférence ajoutée :', value);                                    // LOG
-    this.conferenceService.addConference(value);
-    this.successMessage.set('La conférence a été ajoutée avec succès.');
-    this.conferenceForm.reset();
-    this.submitted.set(false);
+  // Vérification de la validité du formulaire
+  if (this.conferenceForm.invalid) {
+    this.conferenceForm.markAllAsTouched();
+    return;
   }
+
+  // Récupération des données du formulaire
+  const value = this.conferenceForm.getRawValue();
+
+  // Appel du service pour ajouter la conférence
+  this.conferenceService.addConference(value);
+
+  // Réinitialisation du formulaire
+  this.successMessage.set('La conférence a été ajoutée avec succès.');
+  this.conferenceForm.reset();
+  this.submitted.set(false);
+}
 }

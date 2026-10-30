@@ -1,0 +1,52 @@
+{
+  "conferences": [
+    {
+      "id": 1,
+      "titre": "Angular Summit",
+      "intervenant": "Sara Ben Ali",
+      "sujet": "Frontend",
+      "places": 50,
+      "date": "2026-11-10"
+    },
+    {
+      "id": 2,
+      "titre": "Spring Days",
+      "intervenant": "Yassine Trabelsi",
+      "sujet": "Backend",
+      "places": 30,
+      "date": "2026-11-18"
+    },
+    {
+      "id": 3,
+      "titre": "AI Connect",
+      "intervenant": "Meriem Gharbi",
+      "sujet": "IA",
+      "places": 100,
+      "date": "2026-12-02"
+    },
+    {
+      "id": 4,
+      "titre": "Cybersecurity Days",
+      "intervenant": "Mehdi Tatar",
+      "sujet": "Cybersecurity",
+      "places": 80,
+      "date": "2026-12-10"
+    },
+    {
+      "id": 5,
+      "titre": "Cloud Engineering",
+      "intervenant": "Amine Jaziri",
+      "sujet": "Cloud",
+      "places": 60,
+      "date": "2026-12-15"
+    },
+    {
+      "titre": "aaa",
+      "intervenant": "eee",
+      "sujet": "zeaz",
+      "places": 1,
+      "date": "2026-10-30",
+      "id": 6
+    }
+  ]
+}
