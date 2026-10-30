@@ -1,17 +1,50 @@
 @if (current(); as c) {
   <section class="detail">
-    <h2>{{ c.titre }}</h2>
-    <p>Intervenant : {{ c.intervenant }}</p>
-    <p>Sujet : {{ c.sujet }}</p>
-    <p>Date : {{ c.date | date: 'dd/MM/yyyy' }}</p>
-    <p>Places restantes : {{ c.places }}</p>
 
-    @if (estReservee()) {
-      <button class="annuler" (click)="annuler()">Annuler la réservation</button>
-    } @else if (c.places === 0) {
-      <button disabled>Complet</button>
+    @if (!editMode()) {
+      <h2>{{ c.titre }}</h2>
+      <p>Intervenant : {{ c.intervenant }}</p>
+      <p>Sujet : {{ c.sujet }}</p>
+      <p>Date : {{ c.date | date: 'dd/MM/yyyy' }}</p>
+      <p>Places restantes : {{ c.places }}</p>
+
+      <button (click)="modifier()">Modifier</button>
+      /////DELETE Button
+      <button class="supprimer" (click)="supprimer()">Supprimer</button>
+
+      @if (estReservee()) {
+        <button class="annuler" (click)="annuler()">Annuler la réservation</button>
+      } @else if (c.places === 0) {
+        <button disabled>Complet</button>
+      } @else {
+        <button (click)="inscrire()">Réserver</button>
+      }
+      
+
     } @else {
-      <button (click)="inscrire()">Réserver</button>
+      <h2>Modifier la conférence</h2>
+
+      <form [formGroup]="updateForm" (ngSubmit)="enregistrer()">
+
+        <label>Titre</label>
+        <input type="text" formControlName="titre">
+
+        <label>Intervenant</label>
+        <input type="text" formControlName="intervenant">
+
+        <label>Sujet</label>
+        <input type="text" formControlName="sujet">
+
+        <label>Places</label>
+        <input type="number" formControlName="places" min="1">
+
+        <label>Date</label>
+        <input type="date" formControlName="date">
+
+        <button type="submit">Enregistrer</button>
+        <button type="button" (click)="annulerModification()">Annuler</button>
+
+      </form>
     }
   </section>
 }

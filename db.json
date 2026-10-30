@@ -3,9 +3,9 @@
     {
       "id": 1,
       "titre": "Angular Summit",
-      "intervenant": "Sara Ben Ali",
+      "intervenant": "Sara Ben ali",
       "sujet": "Frontend",
-      "places": 50,
+      "places": 42,
       "date": "2026-11-10"
     },
     {
@@ -39,14 +39,6 @@
       "sujet": "Cloud",
       "places": 60,
       "date": "2026-12-15"
-    },
-    {
-      "titre": "aaa",
-      "intervenant": "eee",
-      "sujet": "zeaz",
-      "places": 1,
-      "date": "2026-10-30",
-      "id": 6
     }
   ]
 }
